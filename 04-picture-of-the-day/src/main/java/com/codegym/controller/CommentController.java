@@ -28,6 +28,7 @@ public class CommentController {
 
     @GetMapping("/saveComment")
     public String addComment(Comment comment) {
+        comment.setDate();
         commentService.save(comment);
         return "redirect:/home";
     }
