@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<img id="img-of-the-day" alt="Picture of the day" style="width: 800px; height: 500px">
+
+<form action="/saveComment" method="get">
+    <select name="rating">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+    </select>
+    <p>Author</p>
+    <input type="hidden" name="date" value="">
+    <input type="text" name="author" required>
+    <p>Feedback:</p>
+    <textArea name="feedback" rows="4" cols="50" required maxlength="100"></textArea>
+    <br>
+    <input type="submit" value="Comment">
+</form>
+
+<p id="today"></p>
+<p>Today Commends:</p>
+
+<table>
+    <block th:each="c: ${comments}">
+        <input type="hidden" name="id" th:value="${c.id}">
+        <tr>
+            <td th:text="${c.author}"></td>
+            <td colspan="2" th:text="${c.rating}"></td>
+            <td th:text="${c.date}"></td>
+        </tr>
+        <tr>
+            <td colspan="2" th:text="${c.feedback}"></td>
+            <td th:text="${c.likes}"></td>
+            <td><a th:href="@{/likeComment/{id}(id=${c.id})}">
+                <button>Likes</button>
+            </a></td>
+            <td><a th:href="@{/dislikeComment/{id}(id=${c.id})}">
+                <button>Dislike</button>
+            </a></td>
+        </tr>
+        <tr>
+            <td colspan="4" th:if="${c.feedback!=null}">
+                <hr>
+            </td>
+        </tr>
+
+    </block>
+</table>
+<div>
+    <a th:href="@{'/home'(page=${comments.number - 1})}" th:if="${comments.hasPrevious()}">Previous</a>
+    <span th:text="${comments.number + 1}"></span>/<span th:text="${comments.totalPages}"></span>
+    <a th:href="@{'/home'(page=${comments.number + 1})}" th:if="${comments.hasNext()}">Next</a>
+</div>
+</body>
+<script>
+    let query = 'https://api.nasa.gov/planetary/apod?api_key=n78eHd2MAUdYGjhIjFLJeLuIhexPSbDN8LgnCprZ';
+    let request = new XMLHttpRequest();
+    request.open('GET', query);
+    request.onload = function () {
+        if (request.status === 200) {
+            let response = JSON.parse(request.responseText);
+            document.getElementById('img-of-the-day').setAttribute('src', response.url);
+        }
+    };
+    request.send();
+</script>
+</html>

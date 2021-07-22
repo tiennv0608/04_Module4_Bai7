@@ -1,0 +1,14 @@
+com/codegym/model/Comment.java
+ com.codegym.model.Comment
+com/codegym/config/AppInit.java
+ com.codegym.config.AppInit
+com/codegym/service/impl/CommentServiceImpl.java
+ com.codegym.service.impl.CommentServiceImpl
+com/codegym/config/AppConfig.java
+ com.codegym.config.AppConfig
+com/codegym/service/CommentService.java
+ com.codegym.service.CommentService
+com/codegym/repository/CommentRepository.java
+ com.codegym.repository.CommentRepository
+com/codegym/controller/CommentController.java
+ com.codegym.controller.CommentController
