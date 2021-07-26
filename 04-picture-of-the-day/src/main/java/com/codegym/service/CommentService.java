@@ -1,5 +1,6 @@
 package com.codegym.service;
 
+import com.codegym.exception.BadWordException;
 import com.codegym.model.Comment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +14,7 @@ public interface CommentService {
 
     Page<Comment> showCommentByDate(Pageable pageable);
 
-    void save(Comment comment);
+    void save(Comment comment) throws BadWordException;
 
     void delete(Long id);
 

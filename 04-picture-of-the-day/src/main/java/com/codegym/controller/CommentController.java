@@ -1,5 +1,6 @@
 package com.codegym.controller;
 
+import com.codegym.exception.BadWordException;
 import com.codegym.model.Comment;
 import com.codegym.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +28,14 @@ public class CommentController {
     }
 
     @GetMapping("/saveComment")
-    public String addComment(Comment comment) {
+    public String addComment(Comment comment) throws BadWordException {
         comment.setDate();
         commentService.save(comment);
         return "redirect:/home";
     }
 
     @GetMapping("/likeComment/{id}")
-    public String like(@PathVariable long id) {
+    public String like(@PathVariable long id) throws BadWordException {
         Optional<Comment> comment = commentService.findOne(id);
         comment.get().setLikes(comment.get().getLikes() + 1);
         commentService.save(comment.get());
@@ -42,10 +43,15 @@ public class CommentController {
     }
 
     @GetMapping("/dislikeComment/{id}")
-    public String disLike(@PathVariable long id) {
+    public String disLike(@PathVariable long id) throws BadWordException {
         Optional<Comment> comment = commentService.findOne(id);
         comment.get().setLikes(comment.get().getLikes() - 1);
         commentService.save(comment.get());
         return "redirect:/home";
+    }
+
+    @ExceptionHandler(BadWordException.class)
+    public ModelAndView showBadWordException(){
+        return new ModelAndView("/error");
     }
 }
