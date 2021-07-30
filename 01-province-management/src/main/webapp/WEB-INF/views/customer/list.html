@@ -2,24 +2,25 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="#{list.title}"></title>
 </head>
 <body>
-<a href="/create-customer">Create new customer</a>
-<h1>Customers</h1>
+Language: <a href="?lang=en">En</a> | <a href="?lang=vi">Vi</a>
+<a href="/create-customer" th:text="#{create.text}"></a>
+<h1 th:text="#{list.heading}"></h1>
 <form action="/customers" method="post">
-    Search by first name:
+    <h5 th:text="#{search.text}"></h5>
     <input name="search" type="text"/>
-    <input type="submit" value="Search"/>
+    <input type="submit" th:value="#{button.search}"/>
 </form>
 <br/>
 <table border="1">
     <tr>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Province</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th th:text="#{table.first-heading}"></th>
+        <th th:text="#{table.second-heading}"></th>
+        <th th:text="#{table.third-heading}"></th>
+        <th th:text="#{edit.text}"></th>
+        <th th:text="#{delete.text}"></th>
     </tr>
     <th:block th:each="customer : ${customers}">
         <tr>
@@ -27,8 +28,8 @@
             <td th:text="${customer.lastName}"></td>
             <td th:if="${customer.province}" th:text="${customer.province.name}"></td>
             <td th:unless="${customer.province}"></td>
-            <td><a th:href="@{/edit-customer/__${customer.id}__ }">Edit</a></td>
-            <td><a th:href="@{/delete-customer/__${customer.id}__ }">Delete</a></td>
+            <td><a th:href="@{/edit-customer/__${customer.id}__ }" th:text="#{edit.text}"></a></td>
+            <td><a th:href="@{/delete-customer/__${customer.id}__ }" th:text="#{delete.text}"></a></td>
         </tr>
     </th:block>
 </table>
